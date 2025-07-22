@@ -6,13 +6,6 @@ import FileInput from "../../component/form/FileInput";
 import TextInput from "../../component/form/TextInput";
 import TextareaInput from "../../component/form/TextArea";
 
-type ProductFormData = {
-  image: FileList;
-  title: string;
-  description: string;
-  priceEth: number;
-};
-
 const AddProduct = () => {
   const [previewImages, setPreviewImages] = useState<string[]>([]);
 
@@ -21,7 +14,7 @@ const AddProduct = () => {
     handleSubmit,
     watch,
     formState: { errors },
-  } = useForm<ProductFormData>({
+  } = useForm({
     resolver: yupResolver(productSchema),
   });
 
@@ -38,13 +31,15 @@ const AddProduct = () => {
     }
   }, [watchedFiles]);
 
-  const onSubmit = (data: ProductFormData) => {
+  const onSubmit = (data: any) => {
     const formData = new FormData();
     formData.append("title", data.title);
     formData.append("description", data.description);
     formData.append("priceEth", data.priceEth.toString());
 
-    Array.from(data.image).forEach((file) => formData.append("images", file));
+    Array.from(data.image).forEach((file) =>
+      formData.append("images", file as Blob)
+    );
 
     console.log("Form submitted!", data);
   };
@@ -107,7 +102,7 @@ const AddProduct = () => {
           />
           {errors.priceEth && (
             <p className="text-red-500 text-sm mt-1">
-              {errors.priceEth.message}
+              {errors?.priceEth?.message}
             </p>
           )}
         </div>

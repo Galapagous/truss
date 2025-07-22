@@ -1,4 +1,3 @@
-import React from "react";
 import { BiCartAdd } from "react-icons/bi";
 import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa";
 import { Link } from "react-router-dom";

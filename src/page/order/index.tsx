@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { incomingData, outgoingData } from "./data";
 import Empty from "../../assets/svg/undraw_no-data_ig65.svg";
 import { BiDotsVerticalRounded } from "react-icons/bi";
@@ -11,6 +11,8 @@ interface Product {
   rating: number;
 }
 
+type TabType = "incoming" | "outgoing";
+
 interface ModalState {
   open: boolean;
   productId: string | null;
@@ -18,7 +20,7 @@ interface ModalState {
 }
 
 const Order = () => {
-  const [activeTab, setActiveTab] = useState("incoming");
+  const [activeTab, setActiveTab] = useState<TabType>("incoming");
   const [modal, setModal] = useState<ModalState>({
     open: false,
     productId: null,
@@ -26,7 +28,7 @@ const Order = () => {
   });
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
 
-  const activeProduct = {
+  const activeProduct: Record<"incoming" | "outgoing", Product[]> = {
     incoming: incomingData,
     outgoing: outgoingData,
   };
@@ -68,7 +70,7 @@ const Order = () => {
         {["incoming", "outgoing"].map((tab) => (
           <button
             key={tab}
-            onClick={() => setActiveTab(tab)}
+            onClick={() => setActiveTab(tab as TabType)}
             className={`px-5 py-2 rounded-md font-semibold text-white transition ${
               activeTab === tab ? "bg-black" : "bg-gray-400 hover:bg-gray-500"
             }`}
