@@ -1,4 +1,4 @@
-import { BiEdit, BiTrash, BiPlus } from "react-icons/bi";
+import { BiEdit, BiPlus } from "react-icons/bi";
 import { useNavigate } from "react-router-dom";
 import { productData } from "./data";
 import Empty from "../../assets/svg/undraw_no-data_ig65.svg";
