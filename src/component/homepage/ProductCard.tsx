@@ -44,7 +44,7 @@ const ProductCard = ({ product }: { product: IProduct }) => {
       </p>
       {renderStars()}
       <div className="mt-4 font-bold text-primary flex items-center justify-between">
-        {product.priceEth} ETH
+        {product.priceEth} $USD
         <button className="bg-orange-400 text-white flex items-center gap-2 py-2 px-4 rounded-md">
           <BiCartAdd className="w-5 h-5" />
           <p>Add to cart</p>

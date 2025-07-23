@@ -61,16 +61,10 @@ const Listing = () => {
                   </td>
                   <td className="px-6 py-4 flex gap-3 items-center">
                     <button
-                      onClick={() => navigate(`/edit-product/${product.id}`)}
+                      onClick={() => alert("Stage 2 feature")}
                       className="text-blue-600 hover:underline"
                     >
                       <BiEdit size={18} />
-                    </button>
-                    <button
-                      onClick={() => console.log("Delete", product.id)}
-                      className="text-red-600 hover:underline"
-                    >
-                      <BiTrash size={18} />
                     </button>
                   </td>
                 </tr>

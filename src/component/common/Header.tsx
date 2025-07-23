@@ -1,87 +1,3 @@
-// import { useState } from "react";
-// import { BiCart, BiUser, BiChevronDown } from "react-icons/bi";
-// import { Link } from "react-router-dom";
-// import { headerNav } from "./data";
-
-// const Header = () => {
-//   const [walletConnected, setWalletConnected] = useState(false);
-//   const [dropdownOpen, setDropdownOpen] = useState(false);
-
-//   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
-//   const disconnectWallet = () => {
-//     setWalletConnected(false);
-//     setDropdownOpen(false);
-//   };
-
-//   return (
-//     <div className="py-4 px-10 flex items-center justify-between w-full border-b-2 bg-white relative z-50">
-//       <Link to="/" className="font-bold text-4xl">
-//         Truss
-//       </Link>
-
-//       <div>
-//         {walletConnected ? (
-//           <div className="flex items-center justify-center gap-10 relative">
-//             {/* Cart */}
-//             <div className="flex relative items-center justify-center gap-2">
-//               <BiCart className="w-8 h-8" />
-//               <p className="absolute top-0 -right-2 bg-red-500 p-2 rounded-full w-6 h-6 flex items-center justify-center text-white">
-//                 0
-//               </p>
-//             </div>
-
-//             {/* User + Dropdown */}
-//             <div className="relative">
-//               <div
-//                 onClick={toggleDropdown}
-//                 className="flex bg-neutral-200 text-neutral-700 rounded-full p-2 px-4 items-center justify-center gap-2 cursor-pointer"
-//               >
-//                 <BiUser className="w-6 h-6" />
-//                 <p>Muh'd Musa</p>
-//                 <BiChevronDown
-//                   className={`w-5 h-5 transform transition-transform duration-200 ${
-//                     dropdownOpen ? "rotate-180" : ""
-//                   }`}
-//                 />
-//               </div>
-
-//               {dropdownOpen && (
-//                 <div className="absolute right-0 mt-2 w-48 bg-white border rounded shadow-md z-10">
-//                   {headerNav?.map((eachNav: any) => (
-//                     <Link
-//                       to={eachNav?.link}
-//                       className="block px-4 py-2 hover:bg-gray-100"
-//                       onClick={() => setDropdownOpen(false)}
-//                     >
-//                       {eachNav?.title}
-//                     </Link>
-//                   ))}
-//                   <button
-//                     onClick={disconnectWallet}
-//                     className="w-full text-left px-4 py-2 hover:bg-gray-100 text-red-600"
-//                   >
-//                     Disconnect
-//                   </button>
-//                 </div>
-//               )}
-//             </div>
-//           </div>
-//         ) : (
-//           <button
-//             onClick={() => setWalletConnected(true)}
-//             className="p-2 px-4 rounded-sm bg-primary text-white"
-//           >
-//             Connect Wallet
-//           </button>
-//         )}
-//       </div>
-//     </div>
-//   );
-// };
-
-// export default Header;
-
-// ======== version 2 ========
 import { useState } from "react";
 import { BiCart, BiUser, BiChevronDown, BiMenu } from "react-icons/bi";
 import { Link } from "react-router-dom";
@@ -100,7 +16,7 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full border-b-2 bg-white relative z-50">
+    <header className="w-full border-b-2 bg-white z-50 sticky top-0 left-0">
       <div className="py-4 px-6 md:px-10 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="font-bold text-3xl md:text-4xl">
