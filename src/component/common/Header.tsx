@@ -1,18 +1,60 @@
 import { useState } from "react";
 import { BiCart, BiUser, BiChevronDown, BiMenu } from "react-icons/bi";
-import { Link } from "react-router-dom";
-import { headerNav } from "./data";
+import { Link, useNavigate } from "react-router-dom";
+import { headerNav, truncateAddress } from "./data";
+import { useUser } from "../../context/userContext";
+import { toast } from "sonner";
+import { useMakeRequest } from "../../hook/useMakeRequest";
+import { AUTH_URL } from "../../endpoint";
+import { CgSpinner } from "react-icons/cg";
 
 const Header = () => {
   const [walletConnected, setWalletConnected] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
+  const [loading, setLoading] = useState<boolean>(false);
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
   const disconnectWallet = () => {
     setWalletConnected(false);
     setDropdownOpen(false);
+  };
+  const navigate = useNavigate();
+  const { user, setUser } = useUser();
+  const makeRequest = useMakeRequest();
+
+  const connectWallet = async () => {
+    setLoading(true);
+    try {
+      if (!window?.ethereum) {
+        toast.info("Please install MetaMask!");
+        return;
+      }
+
+      const accounts = await window.ethereum.request({
+        method: "eth_requestAccounts",
+      });
+
+      const walletAddress = accounts[0];
+      console.log("address -->", walletAddress);
+      makeRequest(
+        AUTH_URL,
+        "POST",
+        { address: walletAddress },
+        (data) => {
+          console.log("data -->", data);
+          setUser(data);
+          toast.success("Wallet connected successfully!");
+        },
+        console.log,
+        () => {
+          setLoading(false);
+        }
+      );
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to connect wallet");
+    }
   };
 
   return (
@@ -32,15 +74,18 @@ const Header = () => {
 
         {/* Desktop Right Section */}
         <div className="hidden md:flex items-center gap-8">
-          {walletConnected ? (
+          {user?.address ? (
             <>
               {/* Cart */}
-              <div className="relative flex items-center">
+              <button
+                onClick={() => navigate("/cart")}
+                className="relative flex items-center cursor-pointer"
+              >
                 <BiCart className="w-6 h-6" />
                 <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                   0
                 </span>
-              </div>
+              </button>
 
               {/* User + Dropdown */}
               <div className="relative">
@@ -49,7 +94,9 @@ const Header = () => {
                   className="flex bg-neutral-200 text-neutral-700 rounded-full px-4 py-2 items-center gap-2"
                 >
                   <BiUser className="w-5 h-5" />
-                  <span className="text-sm">Muh'd Musa</span>
+                  <span className="text-sm">
+                    {truncateAddress(user?.address)}
+                  </span>
                   <BiChevronDown
                     className={`w-4 h-4 transform transition-transform ${
                       dropdownOpen ? "rotate-180" : ""
@@ -82,7 +129,7 @@ const Header = () => {
             </>
           ) : (
             <button
-              onClick={() => setWalletConnected(true)}
+              onClick={connectWallet}
               className="p-2 px-4 bg-primary text-white rounded-sm"
             >
               Connect Wallet
@@ -97,10 +144,13 @@ const Header = () => {
           {walletConnected ? (
             <>
               <div className="flex justify-between items-center">
-                <div className="flex items-center gap-2">
+                <button
+                  onClick={() => navigate("/cart")}
+                  className="flex items-center gap-2 cursor-pointer"
+                >
                   <BiCart className="w-5 h-5" />
                   <span className="text-sm">Cart (0)</span>
-                </div>
+                </button>
               </div>
 
               {headerNav.map((eachNav: any, index: number) => (
@@ -124,12 +174,17 @@ const Header = () => {
           ) : (
             <button
               onClick={() => {
-                setWalletConnected(true);
+                connectWallet();
                 setMobileMenuOpen(false);
               }}
+              disabled={loading}
               className="p-2 bg-primary text-white rounded-sm"
             >
-              Connect Wallet
+              {loading ? (
+                "Connect Wallet"
+              ) : (
+                <CgSpinner className="animate-spin" />
+              )}
             </button>
           )}
         </div>

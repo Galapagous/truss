@@ -5,6 +5,7 @@ import Product from "./page/product";
 import Listing from "./page/listing";
 import AddProduct from "./page/listing/new";
 import Order from "./page/order";
+import Cart from "./page/cart";
 
 const routes = createBrowserRouter([
   {
@@ -30,6 +31,10 @@ const routes = createBrowserRouter([
       {
         path: "/order",
         element: <Order />,
+      },
+      {
+        path: "/cart",
+        element: <Cart />,
       },
     ],
   },
