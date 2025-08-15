@@ -192,15 +192,12 @@ import {
   SelfQRcodeWrapper,
   SelfAppBuilder,
   type SelfApp,
-  countries,
 } from "@selfxyz/qrcode";
 import { ethers } from "ethers";
-// import * as SelfQR from "@selfxyz/qrcode";
 
 const Cart = () => {
   const [cartItemData, setCartItemData] = useState(cartData);
   const [selfApp, setSelfApp] = useState<SelfApp | null>(null);
-  // const [universalLink, setUniversalLink] = useState("");
   const [paymentRequested, setPaymentRequested] = useState(false);
 
   const [userId] = useState(ethers.ZeroAddress);
@@ -360,7 +357,7 @@ const Cart = () => {
                 {paymentRequested && selfApp ? (
                   <SelfQRcodeWrapper
                     selfApp={selfApp}
-                    onSuccess={handleSuccessfulVerification}
+                    onSuccess={() => handleSuccessfulVerification}
                     onError={() => {
                       console.error("Error: Failed to verify identity");
                     }}
