@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^5.1.1",
+    "@selfxyz/core": "^1.0.8",
+    "@selfxyz/qrcode": "^1.0.11",
     "axios": "^1.11.0",
+    "ethers": "^6.15.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "react-hook-form": "^7.60.0",
