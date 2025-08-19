@@ -211,6 +211,7 @@ const Header = () => {
   const toggleMobileMenu = () => setMobileMenuOpen((prev) => !prev);
   const disconnectWallet = () => {
     setWalletConnected(false);
+    setUser(null);
     setDropdownOpen(false);
   };
   const navigate = useNavigate();
