@@ -200,8 +200,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { headerNav, truncateAddress } from "./data";
 import { useUser } from "../../context/userContext";
 import { toast } from "sonner";
-import { useMakeRequest } from "../../hook/useMakeRequest";
-import { AUTH_URL } from "../../endpoint";
 import { CgSpinner } from "react-icons/cg";
 
 const Header = () => {
@@ -217,7 +215,7 @@ const Header = () => {
   };
   const navigate = useNavigate();
   const { user, setUser } = useUser();
-  const makeRequest = useMakeRequest();
+  // const makeRequest = useMakeRequest();
 
   const connectWallet = async () => {
     setLoading(true);
@@ -231,22 +229,24 @@ const Header = () => {
       const accounts = await window.ethereum.request({
         method: "eth_requestAccounts",
       });
-
       const walletAddress = accounts[0];
-      makeRequest(
-        AUTH_URL,
-        "POST",
-        { address: walletAddress },
-        (data) => {
-          setUser(data);
-          setWalletConnected(true);
-          toast.success("Wallet connected successfully!");
-        },
-        console.log,
-        () => {
-          setLoading(false);
-        }
-      );
+      setUser(String(walletAddress));
+      setWalletConnected(true);
+      setLoading(false);
+      // makeRequest(
+      //   AUTH_URL,
+      //   "POST",
+      //   { address: walletAddress },
+      //   (data) => {
+      //     setUser(data);
+      //     setWalletConnected(true);
+      //     toast.success("Wallet connected successfully!");
+      //   },
+      //   console.log,
+      //   () => {
+      //     setLoading(false);
+      //   }
+      // );
     } catch (err) {
       console.error(err);
       toast.error("Failed to connect wallet");
@@ -271,7 +271,7 @@ const Header = () => {
 
         {/* Desktop Right Section */}
         <div className="hidden md:flex items-center gap-8">
-          {user?.address ? (
+          {user ? (
             <>
               {/* Cart */}
               <button
@@ -291,9 +291,7 @@ const Header = () => {
                   className="flex bg-neutral-200 text-neutral-700 rounded-full px-4 py-2 items-center gap-2"
                 >
                   <BiUser className="w-5 h-5" />
-                  <span className="text-sm">
-                    {truncateAddress(user?.address)}
-                  </span>
+                  <span className="text-sm">{truncateAddress(user)}</span>
                   <BiChevronDown
                     className={`w-4 h-4 transform transition-transform ${
                       dropdownOpen ? "rotate-180" : ""
